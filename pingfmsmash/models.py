@@ -53,7 +53,7 @@ class Message(models.Model):
         verbose_name, verbose_name_plural = _('message'), _('messages')
 
     def __unicode__(self):
-        return self.message 
+        return self.message
 
     def _get_absolute_url(self):
         return ('message_detail', (), {})
