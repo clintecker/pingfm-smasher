@@ -4,6 +4,6 @@ class Command(BaseCommand):
 	help = "Deletes all messages "
 
 	def handle(self, *args, **options):
-		from pingfm.models import Message
+		from pingfmsmash.models import Message
 		a = Message.objects.all()
 		a.delete()

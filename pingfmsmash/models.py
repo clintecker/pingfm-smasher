@@ -43,10 +43,10 @@ class Message(models.Model):
     """A tweet, essentially. Used for caching, mostly."""
     feed = models.ForeignKey(Feed)
     pingfm_account = models.ForeignKey(PingFMAccount)
-    pinged = models.DateTimeField(_('tweeted'), blank=True, null=True)
+    pinged = models.DateTimeField(_('published'), blank=True, null=True)
     guid = models.CharField(_('guid'), blank=True,  max_length=255)
     message = models.CharField(_('message'), blank=True,  max_length=200)
-    sent_to_pingfm = models.BooleanField(_('sent to twitter'), default=False)
+    sent_to_pingfm = models.BooleanField(_('sent to PingFM'), default=False)
 
     class Meta:
         ordering = ['-pinged',]
