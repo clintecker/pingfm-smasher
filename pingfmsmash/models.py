@@ -46,7 +46,7 @@ class Message(models.Model):
     pingfm_account = models.ForeignKey(PingFMAccount)
     pinged = models.DateTimeField(_('published'), blank=True, null=True)
     guid = models.CharField(_('guid'), blank=True,  max_length=255)
-    message = models.CharField(_('message'), blank=True,  max_length=200)
+    message = models.CharField(_('message'), blank=True,  max_length=255)
     sent_to_pingfm = models.BooleanField(_('sent to PingFM'), default=False)
 
     class Meta:
