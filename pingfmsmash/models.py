@@ -22,17 +22,18 @@ class Feed(models.Model):
 
 class PingFMAccount(models.Model):
     """A Twitter account is fed by multiple twitter feeds"""
+    name = models.CharField(blank=True,  max_length=80)
     pingfm_email = models.EmailField(_('pingfm email'), help_text="The PingFM email posting account you want to send updates to")
     minimum_datetime = models.DateTimeField(_('minimum datetime'), help_text='Do not smash items that occured before this date/time', blank=True, null=True)    
     active = models.BooleanField(_('active'), default=True)
     feeds = models.ManyToManyField(Feed)
 
     class Meta:
-        ordering = ['username',]
+        ordering = ['pingfm_email',]
         verbose_name, verbose_name_plural = _('PingFM account'), _('PingFM accounts')
 
     def __unicode__(self):
-        return self.username
+        return self.name
 
     def _get_absolute_url(self):
         return ('pingfmaccount_detail', (), {})
