@@ -27,6 +27,7 @@ class PingFMAccount(models.Model):
     minimum_datetime = models.DateTimeField(_('minimum datetime'), help_text='Do not smash items that occured before this date/time', blank=True, null=True)    
     active = models.BooleanField(_('active'), default=True)
     feeds = models.ManyToManyField(Feed)
+    
 
     class Meta:
         ordering = ['pingfm_email',]
