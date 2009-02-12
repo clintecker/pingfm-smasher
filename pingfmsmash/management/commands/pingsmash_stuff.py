@@ -120,7 +120,7 @@ class Command(BaseCommand):
                                 entries_pinged += 1
                                 msg.sent_to_pingfm = True
                                 msg.save()
-                            except e:
+                            except:
                                 if not quiet:
                                     print "   - Failed to send to PingFM (%s)" % (e,)
                 else:
