@@ -68,7 +68,7 @@ class Command(BaseCommand):
                         guid = entry.id
                         published = entry.updated_parsed 
                         tracking = campaign_tracking % (urllib.quote(account.name))
-                        message = "%s - %s%s" % (entry.title, entry.link, tracking)
+                        message = u"%s - %s%s" % (entry.title, entry.link, tracking)
                         print message
                         #print guid, published, message
                         published_dt = datetime.datetime(
