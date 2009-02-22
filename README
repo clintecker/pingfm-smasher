@@ -1,0 +1,55 @@
+Ping.FM Smasher
+===============
+
+Ping.FM Smasher is a pluggable Django application that manages RSS feeds and pipes them into a service called [Ping.FM](http://ping.fm) using email. This application has no views or templates.  It consists completely of data models and a management command to perform the recurring tasks.
+
+The application was written as a sort of customized, hosted version of [TwitterFeed](http://twitterfeed.com) which I could customize as much as I liked.  Here's how it works:
+
+* The application will check an RSS feed every few minutes—as often as you need—and determine if there are new items.
+* If there are new items, the application pipes them to a Ping.FM account over email—no developer keys or special setup needed.
+
+Its really as simple as that, there is only one option right now—called `polling rate` which determines the rate at which your feeds are pulled.
+
+## What is Ping.FM Smasher for? ##
+
+Ping.FM smasher was developed for use at Ars Technica for piping our RSS news stream into services like Twitter, Identi.ca, Plurk, et cetera.  We have a vast audience of readers who enjoy reading our news on Twitter; Ping.FM allows us to pipe updates to as many twitter-like networks as we want without having to write customized code.
+
+We currently only perform a 1-to-1 mapping of RSS feed to Ping.FM, but there's nothing stopping someone from "smashing" multiple RSS feeds into a single Ping.FM account (if you wanted to pipe your Google Reader, Flickr, and Blog feeds into your Ping.FM account).
+
+## What's required to use Ping.FM smasher? ##
+
+- [A Ping.FM account](https://ping.fm/signup/)
+- Find the Email account associated with your Ping.FM account:
+
+![](http://clintecker.com/Ping.fm___Your_Dashboard-20090221-173129.jpg)
+
+![](http://clintecker.com/Ping.fm___Post_by_E-mail-20090221-173400.jpg)
+
+- An email server, [Gmail works fine](http://nathanostgard.com/archives/2007/7/2/gmail_and_django/).
+
+## How do I set up Ping.FM smasher? ##
+
+1. Clone this git repository somewhere
+2. Type `sudo python setup.py install`
+3. Add `pingfmsmash` to your project's list of `INSTALLED_APPS` in `settings.py`
+4. Add the Ping.FM Smasher models to your database; type `python manage.py syncdb` in your project root
+5. Go to your project's admin interface, click on "PingFM Accounts" 
+6. Click "Add PingFM Account"
+7. Give the account a name, put in the aforementioned email address for that account
+8. Optionally input the earlier post publication date you want to send into twitter (useful for not spamming your account with old entries on the first run).
+9. Add a new RSS feed by clicking the green checkbox
+10. In the pop-up window, input a name for the feed
+11. Input the URL for the RSS feed
+12. Change the polling rate to whatever you like (default is 15 minutes).
+13. Click Save on the feed
+14. Click Save on the Ping.FM
+15. Repeat steps 6 thru 14 for as many accounts as you'd like to add
+
+## How to I setup a cron task to regularly check my feeds ##
+
+Add a line to your crontab that looks like this:
+
+`*/1 * * * * cd /var/my-django-projects-folder/cool-django-project; /usr/bin/python manage.py pingsmash_stuff --quiet >/dev/null 2>&1`
+
+This runs the check script every minute.  This doesn't mean that every RSS feed will be checked every minute, but it means that the lowest polling rate you can use is 1 minute.  If you leave the polling rate of your feeds at 15 minutes, 14 out of every 15 minutes, this script will run and no do any work, which is fine.
+
