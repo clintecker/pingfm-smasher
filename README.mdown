@@ -12,9 +12,9 @@ Its really as simple as that, there is only one option right now—called `polli
 
 ## What is Ping.FM Smasher for? ##
 
-Ping.FM smasher was developed for use at Ars Technica for piping our RSS news stream into services like Twitter, Identi.ca, Plurk, et cetera.  We have a vast audience of readers who enjoy reading our news on Twitter; Ping.FM allows us to pipe updates to as many twitter-like networks as we want without having to write customized code.
+Ping.FM smasher was developed for my own personal use and we ultimately began using it at Ars Technica.  It's useful for piping your RSS news stream into services like Twitter, Identi.ca, Plurk, et cetera.  Ars Technica has a vast audience of readers who enjoy reading their news on Twitter; Ping.FM allows us to pipe updates to as many twitter-like networks as they want without having to write customized code.
 
-We currently only perform a 1-to-1 mapping of RSS feed to Ping.FM, but there's nothing stopping someone from "smashing" multiple RSS feeds into a single Ping.FM account (if you wanted to pipe your Google Reader, Flickr, and Blog feeds into your Ping.FM account).
+Most people only perform a 1-to-1 mapping of RSS feed to Ping.FM, but there's nothing stopping someone from "smashing" multiple RSS feeds into a single Ping.FM account (if you wanted to pipe your Google Reader, Flickr, and Blog feeds into your Ping.FM account).
 
 ## What's required to use Ping.FM smasher? ##
 
