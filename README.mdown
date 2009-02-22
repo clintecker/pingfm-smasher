@@ -18,6 +18,8 @@ Most people only perform a 1-to-1 mapping of RSS feed to Ping.FM, but there's no
 
 ## What's required to use Ping.FM smasher? ##
 
+- [pytz](http://pytz.sourceforge.net/)
+- [feedparser](http://feedparser.org)
 - [A Ping.FM account](https://ping.fm/signup/)
 - Find the Email account associated with your Ping.FM account:
 
