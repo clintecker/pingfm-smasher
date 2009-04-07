@@ -7,7 +7,7 @@ class MessageAdmin(admin.ModelAdmin):
     list_display = ('feed', 'message', 'pinged', 'sent_to_pingfm')
 
 class FeedAdmin(admin.ModelAdmin):
-    list_display = ('name', 'url', 'last_checked', 'polling_rate')
+    list_display = ('name', 'url', 'link_shortener', 'tracking_codes', 'last_checked',)
 
 class PingFMAccountAdmin(admin.ModelAdmin):
     list_display = ('name', 'pingfm_email', 'minimum_datetime', 'active')
