@@ -77,7 +77,7 @@ class Command(BaseCommand):
                           d = fh.read()
                           link = d
                         else:
-                          link = urllib.quote(entry.link + tracking)
+                          link = entry.link + urllib.quote(tracking)
                         
                         message = u"%s - %s" % (entry.title, link)
                         #print guid, published, message
