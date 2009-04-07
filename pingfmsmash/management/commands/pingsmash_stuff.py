@@ -77,7 +77,8 @@ class Command(BaseCommand):
                           d = fh.read()
                           link = d
                         else:
-                          link = entry.link + urllib.quote(tracking)
+                          tracking = unicode(f.tracking_codes % (urllib.quote(account.name)))
+                          link = entry.link + tracking
                         
                         message = u"%s - %s" % (entry.title, link)
                         #print guid, published, message
