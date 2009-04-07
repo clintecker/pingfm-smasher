@@ -64,6 +64,11 @@ class Command(BaseCommand):
                     for entry in d['entries']:
                         entries_pulled += 1
                         guid = entry.id
+                        m = Message.objects.filter(guid=guid)
+
+                        if m != []:
+                          continue
+                          
                         published = entry.updated_parsed 
                         
                         if f.tracking_codes:
