@@ -16,8 +16,6 @@ from django.conf import settings
 central = timezone('US/Central')
 utc = pytz.utc
 
-campaign_tracking = u"?utm_source=microblogging&utm_medium=pingfm&utm_term=%s&utm_campaign=microblogging"
-
 class Command(BaseCommand):
     help = "Loops through feeds and determines if messages need to be sent to any PingFM accounts"
     option_list = BaseCommand.option_list + (
@@ -67,8 +65,21 @@ class Command(BaseCommand):
                         entries_pulled += 1
                         guid = entry.id
                         published = entry.updated_parsed 
-                        tracking = unicode(campaign_tracking % (urllib.quote(account.name)))
-                        message = u"%s - %s%s" % (entry.title, entry.link, tracking)
+                        
+                        if f.tracking_codes:
+                          tracking = unicode(f.tracking_codes % (account.name))
+                        else:
+                          tracking = ''
+                          
+                        if f.link_shortener:
+                          url = f.link_shortener % (urllib.quote(entry.link + tracking),)
+                          fh = urllib.urlopen(url)
+                          d = fh.read()
+                          link = d
+                        else:
+                          link = entry.link
+                        
+                        message = u"%s - %s" % (entry.title, link)
                         #print guid, published, message
                         published_dt = datetime.datetime(
                             published[0], 
@@ -127,8 +138,8 @@ class Command(BaseCommand):
                     if not quiet:
                         print "   * Checked within the last %s minutes" % (f.polling_rate)
                     accounts_skipped += 1
-        
-        if options.get('debug'):
+
+        if options.get('debug'):        
             return {
                 'entries_pulled': entries_pulled,
                 'accounts_skipped': accounts_skipped,

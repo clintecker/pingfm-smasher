@@ -8,7 +8,9 @@ class Feed(models.Model):
     url = models.URLField(_('url'), blank=True, verify_exists=False)
     last_checked = models.DateTimeField(_('last checked'), blank=True, null=True)
     polling_rate = models.IntegerField(_('polling rate'), blank=True, null=True, default=15)
-
+    link_shortener = models.URLField(blank=True, verify_exists=False)
+    tracking_codes = models.CharField(blank=True,  max_length=255)
+    
     class Meta:
         ordering = ['-last_checked',]
         verbose_name, verbose_name_plural = _('feed'), _('feeds')
@@ -27,7 +29,6 @@ class PingFMAccount(models.Model):
     minimum_datetime = models.DateTimeField(_('minimum datetime'), help_text='Do not smash items that occured before this date/time', blank=True, null=True)    
     active = models.BooleanField(_('active'), default=True)
     feeds = models.ManyToManyField(Feed)
-    
 
     class Meta:
         ordering = ['pingfm_email',]
