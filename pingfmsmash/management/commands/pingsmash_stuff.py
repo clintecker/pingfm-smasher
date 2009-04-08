@@ -64,7 +64,7 @@ class Command(BaseCommand):
                     for entry in d['entries']:
                         entries_pulled += 1
                         guid = entry.id
-                        m = Message.objects.filter(guid=guid)
+                        m = Message.objects.filter(guid=guid, pingfm_account=account)
 
                         if m:
                           continue
