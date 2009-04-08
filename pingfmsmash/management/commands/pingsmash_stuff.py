@@ -66,7 +66,7 @@ class Command(BaseCommand):
                         guid = entry.id
                         m = Message.objects.filter(guid=guid)
 
-                        if m != []:
+                        if m:
                           continue
                           
                         published = entry.updated_parsed 
