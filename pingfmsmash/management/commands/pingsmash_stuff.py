@@ -137,8 +137,8 @@ class Command(BaseCommand):
                                 entries_pinged += 1
                                 msg.sent_to_pingfm = True
                                 msg.save()
-                            except Exception as inst:
-                                print "   - Failed to send to PingFM (%s)" % (inst,)
+                            except Exception, e:
+                                print "   - Failed to send to PingFM (%s)" % (e,)
                 else:
                     if not quiet:
                         print "   * Checked within the last %s minutes" % (f.polling_rate)
