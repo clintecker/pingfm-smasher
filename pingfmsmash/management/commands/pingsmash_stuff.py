@@ -127,7 +127,7 @@ class Command(BaseCommand):
                         if send_to_pingfm:
                             try:
                                 if not options.get('dryrun'):
-                                    send_mail('', msg, 'clint@arstechnica.com',
+                                    send_mail('', msg, settings.DEFAULT_FROM_EMAIL,
                                         [account.pingfm_email], fail_silently=False)
                                     if not quiet:
                                         print "   * Sent to PingFM: '%s'" % (message,)
