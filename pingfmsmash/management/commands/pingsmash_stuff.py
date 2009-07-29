@@ -2,6 +2,7 @@ import datetime
 import feedparser
 import re
 import string
+import urlparse
 from django.core.management.base import BaseCommand
 from optparse import make_option
 from pingfmsmash.models import Feed, PingFMAccount, Message
