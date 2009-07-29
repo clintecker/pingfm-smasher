@@ -64,6 +64,10 @@ class Command(BaseCommand):
                     for entry in d['entries']:
                         entries_pulled += 1
                         guid = entry.id
+                        link = entry.link
+                        link = urlparse.urlparse(link)
+                        link = 'http://' + link[1] + link[2]
+                        
                         m = Message.objects.filter(guid=guid, pingfm_account=account)
 
                         if m:
@@ -77,13 +81,13 @@ class Command(BaseCommand):
                           tracking = ''
                           
                         if f.link_shortener:
-                          url = f.link_shortener % (urllib.quote(entry.link + tracking),)
+                          url = f.link_shortener % (urllib.quote(link + tracking),)
                           fh = urllib.urlopen(url)
                           d = fh.read()
                           link = d
                         else:
                           tracking = unicode(f.tracking_codes % (urllib.quote(account.name)))
-                          link = entry.link + tracking
+                          link = link + tracking
                         
                         message = u"%s - %s" % (entry.title, link)
                         #print guid, published, message
