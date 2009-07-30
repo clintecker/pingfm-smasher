@@ -10,6 +10,8 @@ from pingfmsmash.models import Feed, PingFMAccount, Message
 import pytz
 from pytz import timezone
 import urllib
+import urllib2
+import hashlib
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -17,6 +19,27 @@ from django.conf import settings
 central = timezone('US/Central')
 utc = pytz.utc
 
+PINGFM_DEVELOPER_API_KEY = "0a67206aaa2f9d8d48e8afd0879a8263"
+PINGFM_POST_ENDPOINT = 'http://api.ping.fm/v1/user.post'
+
+def post_to_pingfm_api(user_api_key, body):
+  values = {
+    'post_method': 'status',
+    'api_key': PINGFM_DEVELOPER_API_KEY,
+    'user_app_key': user_api_key,
+    'body': body,
+  }
+  data = urllib.urlencode(values)
+  req = urllib2.Request(PINGFM_POST_ENDPOINT, data)
+  try:
+    response = urllib2.urlopen(req)
+    xml_response = response.read()
+    if '<rsp status="FAIL">' in xml_response:
+      return False
+  except:
+    return False
+  return True
+  
 class Command(BaseCommand):
     help = "Loops through feeds and determines if messages need to be sent to any PingFM accounts"
     option_list = BaseCommand.option_list + (
@@ -132,13 +155,32 @@ class Command(BaseCommand):
                         if send_to_pingfm:
                             try:
                                 if not options.get('dryrun'):
-                                    send_mail('', msg, settings.DEFAULT_FROM_EMAIL,
-                                        [account.pingfm_email], fail_silently=False)
-                                    if not quiet:
-                                        print "   * Sent to PingFM: '%s'" % (message,)
+                                    # If the account prefers API, use API if not, 
+                                    # use email
+                                    if account.prefer_api and account.pingfm_user_key:
+                                      # Send via Ping.FM API
+                                      api_success = post_to_pingfm_api(account.pingfm_user_key, msg)
+                                      if not quiet:
+                                          if api_success:
+                                            print "   *   Sent to PingFM (API): '%s'" % (message,)
+                                          else:
+                                            print "   *   Send to PingFM failed (API): '%s'" % (message,)
+                                      blorg = raw_input('ctrl+c to kill:')
+                                    else:
+                                      # Send via email
+                                      send_mail('', msg, settings.DEFAULT_FROM_EMAIL,
+                                          [account.pingfm_email], fail_silently=False)
+                                      if not quiet:
+                                          print "   * Sent to PingFM (EMAIL): '%s'" % (message,)
+                                    
                                 else:
-                                    if not quiet:
-                                        print "   * Dry run: '%s'" % (message,)
+                                    if account.prefer_api and account.pingfm_user_key:
+                                        if not quiet:
+                                            print "   * Dry run (API): '%s'" % (account.pingfm_user_key,)
+                                            print "   * Dry run (API): '%s'" % (message,)
+                                    else:
+                                        if not quiet:
+                                            print "   * Dry run (EMAIL): '%s'" % (message,)
                                 entries_pinged += 1
                                 msg.sent_to_pingfm = True
                                 msg.save()

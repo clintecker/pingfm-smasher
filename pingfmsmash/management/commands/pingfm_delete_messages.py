@@ -7,3 +7,6 @@ class Command(BaseCommand):
 		from pingfmsmash.models import Message
 		a = Message.objects.all()
 		a.delete()
+		from pingfmsmash.models import Feed
+		a = Feed.objects.all()
+		a.update(last_checked=None)

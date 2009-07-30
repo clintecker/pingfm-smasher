@@ -26,6 +26,9 @@ class PingFMAccount(models.Model):
     """A Twitter account is fed by multiple twitter feeds"""
     name = models.CharField(blank=True,  max_length=80)
     pingfm_email = models.EmailField(_('pingfm email'), help_text="The PingFM email posting account you want to send updates to")
+    pingfm_user_key = models.CharField(blank=True,  max_length=80)
+    prefer_api = models.BooleanField(_('prefer API'), help_text='Would you like for the application to attempt to use the API to send updates, over email.', default=False)
+    
     minimum_datetime = models.DateTimeField(_('minimum datetime'), help_text='Do not smash items that occured before this date/time', blank=True, null=True)    
     active = models.BooleanField(_('active'), default=True)
     feeds = models.ManyToManyField(Feed)
