@@ -113,7 +113,13 @@ class Command(BaseCommand):
                           tracking = unicode(f.tracking_codes % (urllib.quote(account.name)))
                           link = link + tracking
                         
-                        message = u"%s - %s" % (entry.title, link)
+                        body = entry.title
+                        max_body_len = 140 - (len(link + u'... - '))
+                        if len(body) > max_body_len:
+                          body = body[:max_body_len] + u'... - ' + link
+                        else:
+                          body = body + u' - ' + link
+                        message = body
                         #print guid, published, message
                         published_dt = datetime.datetime(
                             published[0], 
